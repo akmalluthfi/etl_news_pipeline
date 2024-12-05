@@ -4,7 +4,12 @@ from newspaper import Article
 
 
 def scrape():
-    response = requests.get("https://www.liputan6.com/")
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "Accept-Encoding": "gzip",
+        "Connection": "keep-alive",
+    }
+    response = requests.get("https://www.liputan6.com/", headers=headers)
     soup = BeautifulSoup(response.text, "html.parser")
 
     link = soup.find("a", class_="breaking-news__click")
