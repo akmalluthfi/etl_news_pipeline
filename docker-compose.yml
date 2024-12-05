@@ -1,0 +1,36 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: liputan6
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+  pipeline-airflow:
+    build: .
+    ports:
+      - "8080:8080"
+    command: >
+      bash -c "airflow db init &&
+        airflow users create --username admin --firstname Airflow --lastname Admin --role Admin --email admin@example.com --password admin &&
+        airflow standalone"
+    depends_on:
+      mysql:
+        condition: service_started
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+
+
+networks:
+  app-network:
