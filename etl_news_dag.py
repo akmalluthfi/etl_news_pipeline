@@ -15,9 +15,8 @@ with DAG(
     start_task = EmptyOperator(task_id="start_task")
 
     scrape_the_web = PythonOperator(task_id="scrape", python_callable=scrape)
-
     to_sql = PythonOperator(task_id="save_to_sql", python_callable=save_to_sql)
 
     end_task = EmptyOperator(task_id="end_task")
 
-    start_task >> scrape >> save_to_sql >> end_task
+    start_task >> scrape_the_web >> to_sql >> end_task

@@ -6,10 +6,10 @@ def save_to_sql(**kwargs):
     data = ti.xcom_pull(task_ids="scrape")
 
     db_config = {
-        "host": "localhost",
-        "user": "root",
-        "password": "",
-        "database": "",
+        "host": "mysql",
+        "user": "admin",
+        "password": "admin",
+        "database": "liputan6",
     }
 
     conn = mysql.connector.connect(**db_config)
